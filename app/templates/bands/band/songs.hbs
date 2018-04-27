@@ -1,11 +1,27 @@
 <ul class="rr-list">
   {{#each model.songs as |song|}}
     <li class="rr-list-item">
-      {{song.title}} <span class="rr-rating fr">{{song.rating}}</span>
+        {{song.title}} <span class="rr-rating fr">{{song.rating}}</span>
     </li>
   {{else}}
     <li class="rr-empty-message">
-      No {{model.name}} songs yet.
+        No {{model.name}} songs yet, why don't you <a href="#" onclick={{action "addSong"}}>create one?</a>
     </li>
   {{/each}}
 </ul>
+<div class="rr-new-label">
+  {{#if isAddingSong}}
+    <form class="rr-inline-form" onsubmit={{action "saveSong"}}>
+      {{input type="text" class="rr-input" value=newSongTitle placeholder="New song"}}
+      <div class="rr-inline-form-group ml-auto">
+        <button type="submit" class="rr-action-button" disabled={{isAddButtonDisabled}}>Add</button>
+        <span class="rr-cancel-icon" onclick={{action "cancelAddSong"}}>{{fa-icon "times"}}</span>
+      </div>
+    </form>
+  {{else}}
+    <label onclick={{action "addSong"}}>
+      {{fa-icon "plus"}}
+      <span class="ml1">Add new song</span>
+    </label>
+  {{/if}}
+</div>
