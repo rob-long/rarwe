@@ -26,6 +26,9 @@ a {
 }
 
 .rr-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding-bottom: 9px;
   margin: 40px 0 20px;
   border-bottom: 1px solid;
@@ -82,7 +85,7 @@ a {
   border-bottom: 2px solid var(--navitem-link-color);
 }
 
-.rr-navbar-item + .rr-navbar-item {
+.rr-navbar-item  .rr-navbar-item {
   margin-left: 10px;
 }
 
@@ -224,10 +227,47 @@ a {
 }
 
 .rr-error-pane {
-  margin: 25px auto;
+margin: 25px auto;
 }
 
 .rr-error-message {
-  text-align: center;
-  color: var(--error-color);
+text-align: center;
+color: var(--error-color);
+}
+
+.rr-user-panel {
+ margin-left: auto;
+}
+
+.rr-signin-button {
+  background-color: inherit;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.rr-form-container {
+  width: 300px;
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rr-form-row {
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rr-button-panel {
+  margin-top: 2em;
+  display: flex;
+  justify-content: center;
+}
+
+.rr-form-footer > .rr-cta {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
 }
