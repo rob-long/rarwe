@@ -15,7 +15,7 @@ module('Unit | Model | Band', function(hooks) {
       ];
       return store.createRecord('band', { songs: A(songs) });
     });
-    assert.notOk(pearlJam.get('isGreatBand'), 'A band with >=2 good songs is a great band');
+    assert.ok(pearlJam.get('isGreatBand'), 'A band with >=2 good songs is a great band');
 
     let stiltskin = run(() => {
       let songs = [
