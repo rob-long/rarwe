@@ -1,13 +1,24 @@
 <div class="rr-form-container">
   <h3 data-test-rr="form-header">Log in to R&R</h3>
   <form onsubmit={{action "signIn"}}>
+    {{#if baseErrors.length}}
+      {{#each baseErrors as |error|}}
+        <div class="rr-error-message mb2" data-test-rr="error-message">{{error}}</div>
+      {{/each}}
+    {{/if}}
     <div class="rr-form-row">
+      {{#if showErrors.email}}
+        <div class="rr-form-field-error" data-test-rr="email-error">{{v-get this 'email' 'message'}}</div>
+      {{/if}}
       <label for="email">Email</label>
-      {{input type="email" class="rr-input ml-auto" id="email" value=email}}
+      {{input type="email" class="rr-input ml-auto" id="email" value=email focus-out=(action (mut showErrors.email) true)}}
     </div>
     <div class="rr-form-row">
+      {{#if showErrors.password}}
+        <div class="rr-form-field-error" data-test-rr="password-error">{{v-get this 'password' 'message'}}</div>
+      {{/if}}
       <label for="password">Password</label>
-      {{input type="password" class="rr-input ml-auto" id="password" value=password}}
+      {{input type="password" class="rr-input ml-auto" id="password" value=password focus-out=(action (mut showErrors.password) true)}}
     </div>
     <div class="rr-form-footer">
       <div class="rr-button-panel">

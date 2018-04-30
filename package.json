@@ -33,6 +33,7 @@
     "ember-cli-sri": "^2.1.0",
     "ember-cli-tachyons-shim": "^4.9.1",
     "ember-cli-uglify": "^2.0.0",
+    "ember-cp-validations": "^3.5.3",
     "ember-data": "~3.1.0",
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "^4.0.0-rc.3",

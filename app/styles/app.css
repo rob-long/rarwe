@@ -258,6 +258,7 @@ color: var(--error-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .rr-button-panel {
@@ -270,4 +271,15 @@ color: var(--error-color);
   margin-top: 1em;
   display: flex;
   justify-content: center;
+}
+
+.rr-cancel-icon-left {
+  align-self: center;
+  margin-right: .25rem; /* .mr1 */
+}
+
+.rr-form-field-error {
+  width: 100%;
+  margin: .25em 0;
+  color: var(--error-color);
 }
