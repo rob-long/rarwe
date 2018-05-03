@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL, fillIn } from '@ember/test-helpers';
+import { visit, click, currentURL, fillIn, triggerEvent  } from '@ember/test-helpers';
 import { createBand, loginAs } from 'rarwe/tests/helpers/custom-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirageTest from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy/snapshot';
 
 module('Acceptance | Bands', function(hooks) {
   setupApplicationTest(hooks);
@@ -14,6 +15,8 @@ module('Acceptance | Bands', function(hooks) {
 
     await loginAs('dave@tcv.com');
     await visit('/');
+
+    percySnapshot('List of bands');
 
     assert.dom('[data-test-rr=band-link]').exists({ count: 2 }, 'All band links are rendered');
     assert.dom('[data-test-rr=band-list-item]:first-child').hasText("Radiohead", 'The first band link contains the band name');
@@ -44,19 +47,21 @@ module('Acceptance | Bands', function(hooks) {
     await click('[data-test-rr=band-link]');
     assert.equal(currentURL(), '/bands/1/songs');
 
+    percySnapshot('List of bands');
+
     assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Elephants', 'The first song is the highest ranked, first one in the alphabet');
     assert.dom('[data-test-rr=song-list-item]:last-child').hasText('New Fang', 'The last song is the lowest ranked, last one in the alphabet');
 
-    await click('[data-test-rr=sort-by-title-desc]');
+    await triggerEvent('[data-test-rr=sort-by-title-desc]', 'change');
     assert.equal(currentURL(), '/bands/1/songs?sort=titleDesc');
 
     assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Spinning In Daffodils', 'The first song is the one that comes last in the alphabet');
     assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Elephants', 'The last song is the one that comes first in the alphabet');
 
-    await click('[data-test-rr=sort-by-title-asc]');
+    await triggerEvent('[data-test-rr=sort-by-title-asc]', 'change');
     assert.equal(currentURL(), '/bands/1/songs?sort=titleAsc');
 
-    await click('[data-test-rr=sort-by-rating-asc]');
+    await triggerEvent('[data-test-rr=sort-by-rating-asc]', 'change');
     assert.equal(currentURL(), '/bands/1/songs?sort=ratingAsc');
   });
 
