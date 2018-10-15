@@ -1,0 +1,85 @@
+<div class="flex w-100 justify-start mb3">
+  <h3 class="ma0">
+    {{#if showingAll}}
+    Concerts
+    {{else}}
+    Nearby concerts
+    {{/if}}
+  </h3>
+  {{#if filterConcerts.isRunning}}
+  <div class="ml-auto">Getting location...</div>
+  {{else}}
+  <div class="ml-auto flex items-center">
+    {{#if showingNearby}}
+    within
+    <div class="ml2 w4">
+      {{#power-select
+      class="ml2"
+      options=nearbyDistances
+      selected=selectedDistance
+      placeholder="..."
+      searchEnabled=false
+      data-test-rr="distance-selector"
+      onchange=(action (mut selectedDistance)) as |distance|}}
+      {{distance}}
+      {{/power-select}}
+    </div>
+    <span class="ml2 mr2">
+      {{if useMiles 'miles' 'kms'}} or
+    </span>
+    {{/if}}
+    <button class="rr-link-button" onclick={{perform filterConcerts}}>
+      {{#if showingAll}}
+      Show nearby
+      {{else}}
+      Show all
+      {{/if}}
+    </button>
+  </div>
+  {{/if}}
+</div>
+{{#if concerts.length}}
+<table class="collapse ba br2 pv2 ph3 w-100">
+  <thead>
+    <th class="pv2 ph3 tl f6 fw6 ttu">Date</th>
+    <th class="tc f6 ttu fw6 pv2 ph3">City</th>
+    <th class="tc f6 ttu fw6 pv2 ph3">Location</th>
+    <th class="tc f6 ttu fw6 pv2 ph3">Event page</th>
+  </thead>
+  <tbody>
+    {{#each concerts as |concert|}}
+    <tr class="striped--near-white" data-test-rr="concert-row">
+      <td class="pv2 ph3">
+        {{#let
+        (concat concert.start.date ' | The Ember.js Blog')
+        as |title|
+        }}
+        {{title}}
+        {{/let}}
+
+
+        {{#let concert.start.date currentUser.user.dateFormat as |date format|}}
+        {{#if format}}
+        {{moment-format date format}}
+        {{else}}
+        {{moment-format date}}
+        {{/if}}
+        {{/let}}
+      </td>
+      <td class="pv2 ph3">{{concert.location.city}}</td>
+      <td class="pv2 ph3">{{concert.venue.displayName}}</td>
+      <td class="pv2 ph3">
+        <a href={{concert.uri}}>Visit {{fa-icon 'external-link'}}</a>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<div class="mt2 flex items-end">
+  <a class="ml-auto" style="width: 15%" href="https://songkick.com" target="_blank" rel="noopener">
+    <img src="/images/powered-by-songkick-white.svg" />
+  </a>
+</div>
+{{else}}
+<p class="tc">There are no upcoming concerts.</p>
+{{/if}}

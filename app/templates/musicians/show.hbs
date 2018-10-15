@@ -1,0 +1,37 @@
+{{!-- app/templates/musicians/show.hbs --}}
+<div class="bg-white mid-gray pa3">
+  <div class="flex">
+    <div class="w-25">
+      <div class="h4 w4 bg-mid-gray near-white f1 tc dtc v-mid" data-test-rr="musician-initials">
+        {{model.initials}}
+      </div>
+    </div>
+    <div class="w-75 flex flex-column ml4 items-start">
+      <div class="flex w-100 justify-between">
+        <h3 class="ma0" data-test-rr="musician-name">{{model.name}}</h3>
+        {{#link-to 'musicians.edit' model.id class="underline" data-test-rr="musicians-edit-link"}}Edit{{/link-to}}
+      </div>
+    
+      <div class="mt3" data-test-rr="musician-age">
+        <span class="b mr2">Born:</span>
+        {{#with model.yearOfBirth as |yob|}}
+          {{yob}} (age {{model.age}} years)
+        {{else}}
+          Not known
+        {{/with}}
+      </div>
+      <h4 class="ma0 mt3">Bands</h4>
+      {{#if model.bands.length}}
+      <ul class="rr-list mt3">
+        {{#each model.bands as |band|}}
+          <li class="rr-list-item" data-test-rr="band-name">
+          {{link-to band.name 'bands.band' band.id}}
+          </li>
+        {{/each}}
+      </ul>
+      {{else}}
+        <div class="mt3 m13">No bands yet.</div>
+      {{/if}}
+    </div>
+  </div>
+</div>

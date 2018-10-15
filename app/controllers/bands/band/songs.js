@@ -1,45 +1,41 @@
 import Controller from '@ember/controller';
-import { empty, sort } from '@ember/object/computed';
+import { empty, gt } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import { capitalize } from 'rarwe/helpers/capitalize';
+import { task, timeout } from 'ember-concurrency';
 
 export default Controller.extend({
-  queryParams: {
-    sortBy: 'sort',
-    searchTerm: 's',
-  },
+  pageNumber: 1,
+
+  hasPrevPage: gt('pageNumber', 1),
+  hasNextPage: computed('pageNumber', 'model.meta.page-count', function() {
+    return this.pageNumber < this.model.meta['page-count'];
+  }),
+
   isAddingSong: false,
   newSongTitle: '',
 
   isAddButtonDisabled: empty('newSongTitle'),
 
-  sortBy: 'ratingDesc',
-
-  sortProperties: computed('sortBy', function() {
-    let options = {
-      ratingDesc: ['rating:desc', 'title:asc'],
-      ratingAsc:  ['rating:asc', 'title:asc'],
-      titleDesc:  ['title:desc'],
-      titleAsc:   ['title:asc']
-    };
-    return options[this.sortBy];
-  }),
-
-  sortedSongs: sort('matchingSongs', 'sortProperties'),
+  sortBy: '-rating,title',
 
   searchTerm: '',
 
-  matchingSongs: computed('model.songs.@each.title', 'searchTerm', function() {
-    let searchTerm = this.searchTerm.toLowerCase();
-    return this.model.get('songs').filter((song) => {
-      return song.get('title').toLowerCase().includes(searchTerm);
-    });
-  }),
-
-  newSongPlaceholder: computed('model.name', function() {
-    let bandName = this.get('model.name');
+  newSongPlaceholder: computed('band.name', function() {
+    let bandName = this.get('band.name');
     return `New ${capitalize(bandName)} song`;
   }),
+
+  updateSearchTerm: task(function* (value) {
+    yield timeout(500);
+    yield this.transitionToRoute({
+      queryParams: {
+        pageNumber: 1,
+        searchTerm: value
+      }
+    })
+    
+  }).restartable(),
 
   actions: {
     addSong() {
@@ -52,18 +48,20 @@ export default Controller.extend({
 
     async saveSong(event) {
       event.preventDefault();
-      let newSong = this.get('store').createRecord('song', {
-        title: this.get('newSongTitle'),
-        band: this.model
+      let newSong = this.store.createRecord('song', {
+        title: this.newSongTitle,
+        band: this.band
       });
-      await newSong.save()
+      await newSong.save();
+      this.model.update();
       this.set('newSongTitle', '');
+      this.flashMessages.success('The new song has been created');
     },
 
     updateRating(song, rating) {
       song.set('rating', song.rating === rating ? 0 : rating);
       return song.save();
-    },
+    }
 
   }
 });

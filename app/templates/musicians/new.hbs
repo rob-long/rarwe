@@ -1,0 +1,5 @@
+{{!-- app/templates/musicians/new.hbs --}}
+ <div class="rr-form-container">
+   <h3 data-test-rr="form-header">New musician</h3>
+   {{musician-form musician=model afterSave=gotoMusicianDetails preselectedBands=selectedBands}}
+</div>

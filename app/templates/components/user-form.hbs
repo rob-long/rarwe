@@ -1,0 +1,42 @@
+<form onsubmit={{perform saveUser}}>
+  <div class="rr-form-row mb3">
+    <div class="mb2">
+      <label for="date-format">Preferred date format</label>
+    </div>
+    <div class="mb2" data-test-rr="date-format-selector-parent">
+      {{#power-select
+      options=dateFormats
+      selected=selectedFormat
+      searchEnabled=false
+      data-test-rr="date-format-selector"
+      onchange=(action "updateSelectedFormat") as |format|}}
+      {{format.example}}
+      {{/power-select}}
+    </div>
+  </div>
+  <div class="rr-form-row">
+    <div class="mb2">
+      <label for="units">Units</label>
+    </div>
+    <div class="mb2" data-test-rr="unit-selector-parent">
+      {{#power-select
+      options=units
+      selected=@user.unitPreference
+      searchEnabled=false
+      data-test-rr="unit-selector"
+      onchange=(action (mut @user.unitPreference)) as |unit|}}
+      {{capitalize unit}}
+      {{/power-select}}
+    </div>
+  </div>
+  <div class="rr-form-footer">
+    <div class="rr-button-panel">
+      <button type="button" class="rr-secondary-button mr3" data-test-rr="cancel-button" onclick={{perform discardChanges}}>
+        Cancel
+      </button>
+      <button type="submit" class="rr-action-button" data-test-rr="save-button">
+        Save
+      </button>
+    </div>
+  </div>
+</form>

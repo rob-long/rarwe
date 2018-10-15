@@ -25,6 +25,14 @@ module.exports = function(environment) {
     'ember-simple-auth': {
       routeIfAlreadyAuthenticated: 'bands'
     },
+    
+    songkick: {
+      apiKey: process.env.SONGKICK_API_KEY
+    },
+
+    moment: {
+      outputFormat: 'YYYY-MM-DD'
+    },
   };
 
   if (environment === 'development') {

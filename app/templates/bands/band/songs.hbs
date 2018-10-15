@@ -1,26 +1,39 @@
 <div class="rr-controls-panel">
   <div class="rr-sort-panel">
-    <select class="rr-select" data-test-rr="sort-selector" onchange={{action (mut sortBy) value="target.value"}}>
-      <option value="ratingDesc" data-test-rr="sort-by-rating-desc">By rating, descending</option>
-      <option value="ratingAsc" data-test-rr="sort-by-rating-asc">By rating, ascending</option>
-      <option value="titleDesc" data-test-rr="sort-by-title-desc">By title, descending</option>
-      <option value="titleAsc" data-test-rr="sort-by-title-asc">By title, ascending</option>
-    </select>
+    {{#link-to (query-params sort='-rating,title' pageNumber=1) class="rr-sort-button" data-test-rr="sort-by-rating-desc"}} 
+      Rating
+      {{fa-icon "angle-down"}}
+    {{/link-to}}
+
+    {{#link-to (query-params sortBy='rating,title' pageNumber=1) class="rr-sort-button" data-test-rr="sort-by-rating-asc"}}
+      Rating
+      {{fa-icon "angle-up"}}
+    {{/link-to}}
+
+    {{#link-to (query-params sortBy='-title' pageNumber=1) class="rr-sort-button" data-test-rr="sort-by-title-desc"}}
+      Title
+      {{fa-icon "angle-down"}}
+    {{/link-to}}
+
+    {{#link-to (query-params sortBy='title' pageNumber=1) class="rr-sort-button" data-test-rr="sort-by-title-asc"}}
+      Title
+      {{fa-icon "angle-up"}}
+    {{/link-to}}
+
   </div>
   <div class="rr-search-panel">
-    {{input type="text" class="rr-input" value=searchTerm data-test-rr="search-box"}}
-    <button type="button" class="rr-search-button">{{fa-icon "search"}}</button>
+    {{rr-search-panel onChange=updateSearchTerm value=searchTerm}}
   </div>
 </div>
 <ul class="rr-list">
-  {{#each sortedSongs as |song|}}
+  {{#each model as |song|}}
     <li class="rr-list-item" data-test-rr="song-list-item">
       {{capitalize song.title}}
       {{star-rating class="fr" rating=song.rating onClick=(action 'updateRating' song)}}
     </li>
   {{else}}
     <li class="rr-empty-message">
-        No {{capitalize model.name}} songs yet, why don't you <a href="#" onclick={{action "addSong"}}>create one?</a>
+        No {{capitalize band.name}} songs yet, why don't you <a href="#" onclick={{action "addSong"}}>create one?</a>
     </li>
   {{/each}}
 </ul>
@@ -38,5 +51,18 @@
       {{fa-icon "plus"}}
       <span class="ml1">Add new song</span>
     </label>
+  {{/if}}
+</div>
+<div class="rr-pagination-links">
+  {{#if hasPrevPage}}
+    {{#link-to (query-params pageNumber=(dec pageNumber)) class="rr-pagination-prev" data-test-rr="pagination-prev"}}
+    {{fa-icon "angle-left"}} Prev
+    {{/link-to}}
+  {{/if}}
+
+  {{#if hasNextPage}}
+    {{#link-to (query-params pageNumber=(inc pageNumber)) class="rr-pagination-next" data-test-rr="pagination-next"}}
+    {{fa-icon "angle-right"}} Next
+    {{/link-to}}
   {{/if}}
 </div>

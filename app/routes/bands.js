@@ -3,7 +3,12 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Route.extend(AuthenticatedRouteMixin, {
   model() {
-    return this.store.findAll('band');
+    let options = {};
+    let loadedBands = this.store.peekAll('band');
+    if (loadedBands.length > 0) {
+      options.reload = true;
+    }
+    return this.store.findAll('band', options);
   },
 
   actions : {

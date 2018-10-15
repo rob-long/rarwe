@@ -1,0 +1,5 @@
+{{!-- app/templates/musicians/new.hbs --}}
+<div class="rr-form-container">
+  <h3 data-test-rr="form-header">Update {{model.name}}</h3>
+  {{musician-form musician=model afterCancel=gotoMusicianDetails afterSave=gotoMusicianDetails button-label="Update"}}
+</div>

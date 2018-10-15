@@ -1,19 +1,9 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  model() {
-    return this.modelFor('bands.band');
-  },
-  
-  actions: {
-    willTransition(transition) {
-      if (this.controller.isEditing) {
-        let leave = window.confirm('Are you sure?');
-        if (!leave) {
-          transition.abort();
-        }
-      }
-    }
+  async model() {
+    let band = this.modelFor('bands.band');
+    await band.members.reload();
+    return band;
   }
-
 });

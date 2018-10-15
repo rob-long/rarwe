@@ -13,13 +13,13 @@
   </ul>
   <div class="rr-new-label">
     {{#if isAddingBand}}
-      <form class="rr-inline-form" onsubmit={{action "saveBand"}}>
+      <form class="rr-inline-form" onsubmit={{perform saveBand}}>
         {{input type="text" class="rr-input" value=newBandName placeholder="New band" data-test-rr="new-band-input"}}
          <button type="submit" class="rr-action-button" disabled={{isAddButtonDisabled}} data-test-rr="new-band-button">Add</button>
         <span class="rr-cancel-icon" onclick={{action "cancelAddBand"}}>{{fa-icon "times"}}</span>
       </form>
     {{else}}
-      <label onclick={{action "addBand"}} data-test-rr="new-band-label">
+      <label onclick={{action "addBand"}} disabled={{saveBand.isRunning}} data-test-rr="new-band-label">
         {{fa-icon "plus"}}
         <span class="ml1">Add new band</span>
       </label>

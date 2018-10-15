@@ -1,0 +1,42 @@
+<form onsubmit={{perform saveBand}}>
+  <div class="rr-form-row mb3">
+    {{#if showErrors.name}}
+    <div class="rr-form-field-error" data-test-rr="name-error">{{v-get band 'name' 'message'}}</div>
+    {{/if}}
+    <div class="mb2">
+      <label for="name">Name</label>
+    </div>
+    <div class="mb2">
+      {{input type="text"
+      class="rr-input ml-auto w-100"
+      data-test-rr="band-name-field"
+      id="name"
+      value=@band.name
+      focus-out=(action (mut showErrors.name) true)}}
+    </div>
+  </div>
+  <div class="rr-form-row mb3">
+    {{#if showErrors.description}}
+    <div class="rr-form-field-error" data-test-rr="description-error">{{v-get band 'description' 'message'}}</div>
+    {{/if}}
+    <div class="mb2">
+      <label for="name">Description</label>
+    </div>
+    <div class="mb2">
+      {{textarea class="rr-textarea"
+      data-test-rr="band-description-field"
+      value=@band.description
+      focus-out=(action (mut showErrors.description) true)}}
+    </div>
+  </div>
+  <div class="rr-form-footer">
+    <div class="rr-button-panel">
+      <button type="button" class="rr-secondary-button mr3" data-test-rr="cancel-button" onclick={{perform discardChanges}}>
+        Cancel
+      </button>
+      <button type="submit" class="rr-action-button" data-test-rr="update-button" disabled={{isButtonDisabled}}>
+        Update
+      </button>
+    </div>
+  </div>
+</form>

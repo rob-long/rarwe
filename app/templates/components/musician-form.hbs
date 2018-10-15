@@ -1,0 +1,47 @@
+<form onsubmit={{perform saveMusician}}>
+  <div class="rr-form-row mb3">
+    {{#if showErrors.name}}
+    <div class="rr-form-field-error" data-test-rr="name-error">{{v-get @musician 'name' 'message'}}</div>
+    {{/if}}
+    <div class="mb2">
+      <label for="name">Name</label>
+    </div>
+    <div class="mb2">
+      {{input type="text" class="rr-input ml-auto w100" id="name"
+      value=@musician.name focus-out=(action (mut showErrors.name) true)}}
+    </div>
+  </div>
+
+  <div class="rr-form-row">
+    <div class="mb2">
+      <label for="bands">Bands</label>
+    </div>
+    <div class="mb2">
+      {{#power-select-multiple
+      options=bands
+      selected=selectedBands
+      searchField='name'
+      placeholder="Choose some bands"
+      data-test-rr="band-selector"
+      onchange=(action (mut selectedBands)) as |band|}}
+      {{band.name}}
+      {{/power-select-multiple}}
+    </div>
+  </div>
+
+  <div class="rr-form-footer">
+    <div class="rr-button-panel">
+      {{#if @afterCancel}}
+        <button type="button"
+        class="rr-secondary-button mr3"
+        data-test-rr="cancel-button"
+        onclick={{perform discardChanges}}>
+        Cancel</button>
+      {{/if}}
+
+      <button type="submit" class="rr-action-button" data-test-rr="create-button" disabled={{isButtonDisabled}}>
+        {{if @musician.isNew 'Create' 'Update'}}
+      </button>
+    </div>
+  </div>
+</form>

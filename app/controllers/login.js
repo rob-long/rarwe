@@ -2,9 +2,9 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { buildValidations } from 'ember-cp-validations';
 import { computed } from '@ember/object';
-import emailFieldValidation from 'rarwe/validations/email-field';
-import passwordFieldValidation from 'rarwe/validations/password-field';
-import extractServerError from 'rarwe/utils/extract-server-error';
+import emailFieldValidation from '../validations/email-field';
+import passwordFieldValidation from '../validations/password-field';
+import extractServerError from '../utils/extract-server-error';
 
 const Validations = buildValidations({
   email: emailFieldValidation,

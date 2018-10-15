@@ -1,14 +1,19 @@
 <div class="rr-container">
+  {{#each flashMessages.queue as |flash|}}
+  {{flash-message flash=flash}}
+  {{/each}}
   <div class="rr-page-header">
-    {{#link-to 'index'}}
-      <h1 class="rr-app-title">Rock & Roll<small class="rr-subtitle"> with Ember.js</small></h1>
+    {{#link-to 'index' class="rr-header-link"}}
+    <h1 class="rr-app-title">Rock & Roll<small class="rr-subtitle"> with Ember.js</small></h1>
     {{/link-to}}
     {{#if session.isAuthenticated}}
-      <div class="rr-user-panel">
-        <span data-test-rr="user-email">{{session.data.authenticated.userEmail}}</span>
-      </div>
+    <div class="rr-user-panel">
+      {{#link-to 'settings'}}
+      <span data-test-rr="user-email">{{session.data.authenticated.userEmail}}</span>
+      {{/link-to}}
       |
       <span>{{link-to 'Logout' 'logout' data-test-rr="logout"}}</span>
+    </div>
     {{/if}}
   </div>
   <div class="rr-main-content">

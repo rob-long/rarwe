@@ -5,6 +5,13 @@ import { buildValidations, validator } from 'ember-cp-validations';
 const { Model, attr, hasMany } = DS;
 
 const Validations = buildValidations({
+  name: [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true,
+      message: "Name can't be empty"
+    }),
+  ],
   description: [
     validator('length', {
       min: 12,
@@ -16,8 +23,10 @@ const Validations = buildValidations({
 
 export default Model.extend(Validations, {
   name:         attr('string'),
-  description:  attr('string'),
-  songs:        hasMany(),
+  description: attr('string'),
+  songkickArtistId: attr(),
+  songs: hasMany(),
+  members: hasMany('musicians', { async: false }),
 
   isGreatBand: computed('songs.@each.rating', function() {
     let goodSongs = this.get('songs').filter((song) => song.rating >= 4);
