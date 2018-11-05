@@ -17,8 +17,8 @@ export default Model.extend(Validations, {
   unitPreference: attr(),
   dateFormat: attr(),
 
-  preferImperial: equal('unitPreference', 'imperial'),
-  preferesMetric: not('prefersImperial'),
+  prefersImperial: equal('unitPreference', 'imperial'),
+  prefersMetric: not('prefersImperial'),
 
   
 });

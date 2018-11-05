@@ -25,13 +25,10 @@ export default Controller.extend({
   },
 
   maxDistance: computed('selectedDistance', 'useMiles', function () {
-    if (this.useMiles) {
-      return this.selectedDistance * milesToKilometers * 1000;
-    }
-    return this.selectedDistance * 1000;
+    return this.selectedDistance * 1000 * (this.useMiles ? milesToKilometers : 1);
   }),
   
-  concerts: computed('showingAll', 'model.[]', 'userLocation', 'selectedDistance', function () {
+  concerts: computed('showingAll', 'model.[]', 'userLocation', 'maxDistance', function () {
     if (this.showingAll) {
       return this.model;
     }
